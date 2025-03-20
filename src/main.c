@@ -16,7 +16,6 @@
 
 #include "main_functions.h"
 
-/* Increase number of loops to see full period of the sine curve */
 #define NUM_LOOPS 1
 
 /* This is the default main used on systems that have the standard C entry
