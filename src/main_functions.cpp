@@ -17,9 +17,7 @@
 #include "main_functions.h"
 
 #include <tensorflow/lite/micro/micro_mutable_op_resolver.h>
-#include "constants.h"
 #include "model.hpp"
-#include "output_handler.hpp"
 #include <tensorflow/lite/micro/micro_log.h>
 #include <tensorflow/lite/micro/micro_interpreter.h>
 #include <tensorflow/lite/micro/system_setup.h>
@@ -31,7 +29,6 @@ namespace {
 	tflite::MicroInterpreter *interpreter = nullptr;
 	TfLiteTensor *input = nullptr;
 	TfLiteTensor *output = nullptr;
-	int inference_count = 0;
 
 	constexpr int kTensorArenaSize = 2000;
 	uint8_t tensor_arena[kTensorArenaSize];
@@ -49,7 +46,7 @@ void setup(void)
 		return;
 	}
 
-	/* pull all operations. */
+	/* Pull operations. */
 	static tflite::MicroMutableOpResolver <1> resolver;
 	resolver.AddFullyConnected();
 
@@ -68,9 +65,6 @@ void setup(void)
 	/* Obtain pointers to the model's input and output tensors. */
 	input = interpreter->input(0);
 	output = interpreter->output(0);
-
-	/* Keep track of how many inferences we have performed. */
-	inference_count = 0;
 }
 
 /* The name of this function is important for Arduino compatibility. */
