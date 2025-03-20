@@ -1,4 +1,0 @@
-west:
-  command: /home/thongp/zephyrproject/.venv/bin/west build -p always -b qemu_x86 .
-  topdir: /home/thongp/zephyrproject
-  version: 1.3.0
