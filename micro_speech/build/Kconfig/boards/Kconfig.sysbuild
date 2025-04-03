@@ -1,2 +1,0 @@
-# Load Sysbuild board Kconfig descriptions.
-osource "/home/thongp/gsoc/zephyr/boards/qemu/xtensa/Kconfig.sysbuild"

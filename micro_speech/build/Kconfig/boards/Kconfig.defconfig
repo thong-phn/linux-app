@@ -1,2 +1,0 @@
-# Load Zephyr board defconfig descriptions.
-osource "/home/thongp/gsoc/zephyr/boards/qemu/xtensa/Kconfig.defconfig"

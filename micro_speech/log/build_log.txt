@@ -1,0 +1,364 @@
+-- west build: making build dir /home/thongp/zephyrproject/zephyr/samples/modules/tflite-micro/gsoc_application/micro_speech/build pristine
+-- west build: generating a build system
+-- Application: /home/thongp/zephyrproject/zephyr/samples/modules/tflite-micro/gsoc_application/micro_speech
+-- CMake version: 3.28.3
+-- Found Python3: /home/thongp/zephyrproject/.venv/bin/python3 (found suitable version "3.12.3", minimum required is "3.10") found components: Interpreter 
+-- Cache files will be written to: /home/thongp/.cache/zephyr
+-- Zephyr version: 4.1.0-rc3 (/home/thongp/zephyrproject/zephyr)
+-- Found west (found suitable version "1.3.0", minimum required is "0.14.0")
+-- Board: qemu_xtensa, qualifiers: dc233c
+-- ZEPHYR_TOOLCHAIN_VARIANT not set, trying to locate Zephyr SDK
+-- Found host-tools: zephyr 0.17.0 (/home/thongp/zephyr-sdk-0.17.0)
+-- Found toolchain: zephyr 0.17.0 (/home/thongp/zephyr-sdk-0.17.0)
+-- Found Dtc: /home/thongp/zephyr-sdk-0.17.0/sysroots/x86_64-pokysdk-linux/usr/bin/dtc (found suitable version "1.6.0", minimum required is "1.4.6") 
+-- Found BOARD.dts: /home/thongp/zephyrproject/zephyr/boards/qemu/xtensa/qemu_xtensa_dc233c.dts
+-- Generated zephyr.dts: /home/thongp/zephyrproject/zephyr/samples/modules/tflite-micro/gsoc_application/micro_speech/build/zephyr/zephyr.dts
+-- Generated pickled edt: /home/thongp/zephyrproject/zephyr/samples/modules/tflite-micro/gsoc_application/micro_speech/build/zephyr/edt.pickle
+-- Generated devicetree_generated.h: /home/thongp/zephyrproject/zephyr/samples/modules/tflite-micro/gsoc_application/micro_speech/build/zephyr/include/generated/zephyr/devicetree_generated.h
+-- Including generated dts.cmake file: /home/thongp/zephyrproject/zephyr/samples/modules/tflite-micro/gsoc_application/micro_speech/build/zephyr/dts.cmake
+Parsing /home/thongp/zephyrproject/zephyr/Kconfig
+Loaded configuration '/home/thongp/zephyrproject/zephyr/boards/qemu/xtensa/qemu_xtensa_dc233c_defconfig'
+Merged configuration '/home/thongp/zephyrproject/zephyr/samples/modules/tflite-micro/gsoc_application/micro_speech/prj.conf'
+Configuration saved to '/home/thongp/zephyrproject/zephyr/samples/modules/tflite-micro/gsoc_application/micro_speech/build/zephyr/.config'
+Kconfig header saved to '/home/thongp/zephyrproject/zephyr/samples/modules/tflite-micro/gsoc_application/micro_speech/build/zephyr/include/generated/zephyr/autoconf.h'
+-- Found GnuLd: /home/thongp/zephyr-sdk-0.17.0/xtensa-dc233c_zephyr-elf/xtensa-dc233c_zephyr-elf/bin/ld.bfd (found version "2.38") 
+-- The C compiler identification is GNU 12.2.0
+-- The CXX compiler identification is GNU 12.2.0
+-- The ASM compiler identification is GNU
+-- Found assembler: /home/thongp/zephyr-sdk-0.17.0/xtensa-dc233c_zephyr-elf/bin/xtensa-dc233c_zephyr-elf-gcc
+-- Using ccache: /usr/bin/ccache
+-- Configuring done (4.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: /home/thongp/zephyrproject/zephyr/samples/modules/tflite-micro/gsoc_application/micro_speech/build
+-- west build: building application
+[1/321] Generating ../../../../include/generated/xtensa_handlers_tmp.c
+[2/321] Preparing syscall dependency handling
+
+[3/321] Generating ../../../../include/generated/zephyr/core-isa-dM.h
+[4/321] Generating include/generated/zephyr/version.h
+-- Zephyr version: 4.1.0-rc3 (/home/thongp/zephyrproject/zephyr), build: v4.1.0-rc3-153-g9cf65d6eb1ab
+[5/321] Generating ../../../../include/generated/xtensa_handlers.h
+[6/321] Generating ../../../../include/generated/xtensa_vectors.ld
+[7/321] Generating ../../../../include/generated/zephyr/zsr.h
+[8/321] Generating misc/generated/syscalls_subdirs.trigger
+[9/321] Generating misc/generated/syscalls.json, misc/generated/struct_tags.json
+[10/321] Generating include/generated/device-api-sections.ld, include/generated/device-api-sections.cmake
+[11/321] Generating include/generated/zephyr/syscall_dispatch.c, include/generated/zephyr/syscall_exports_llext.c, syscall_weakdefs_llext.c, include/generated/zephyr/syscall_list.h
+[12/321] Generating include/generated/zephyr/kobj-types-enum.h, include/generated/zephyr/otype-to-str.h, include/generated/zephyr/otype-to-size.h
+[13/321] Generating include/generated/zephyr/driver-validation.h
+[14/321] Building C object zephyr/CMakeFiles/offsets.dir/arch/xtensa/core/offsets/offsets.c.obj
+[15/321] Generating include/generated/zephyr/offsets.h
+[16/321] Building CXX object CMakeFiles/app.dir/src/main.cpp.obj
+[17/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/msb_32.cc.obj
+[18/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/filter_bank_log.cc.obj
+[19/321] Building ASM object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/xtensa/xtensa_square_root.S.obj
+[20/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/fft_auto_scale.cc.obj
+[21/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/energy.cc.obj
+[22/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/log.cc.obj
+[23/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/filter_bank.cc.obj
+[24/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/max_abs.cc.obj
+[25/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/pcan_argc_fixed.cc.obj
+[26/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/filter_bank_spectral_subtraction.cc.obj
+[27/321] Building CXX object CMakeFiles/app.dir/src/silence_1000ms_audio_data.cc.obj
+[28/321] Building CXX object CMakeFiles/app.dir/src/noise_1000ms_audio_data.cc.obj
+[29/321] Building CXX object CMakeFiles/app.dir/src/yes_1000ms_audio_data.cc.obj
+[30/321] Building CXX object CMakeFiles/app.dir/src/no_1000ms_audio_data.cc.obj
+[31/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/cpp/abi/cpp_dtors.c.obj
+[32/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/sem.c.obj
+[33/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/thread_entry.c.obj
+[34/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/printk.c.obj
+[35/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/assert.c.obj
+[36/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/dec.c.obj
+[37/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/hex.c.obj
+[38/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/timeutil.c.obj
+[39/321] Building C object zephyr/CMakeFiles/zephyr.dir/misc/generated/configs.c.obj
+[40/321] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/tracing/tracing_none.c.obj
+[41/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/heap/heap.c.obj
+[42/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/cbprintf_complete.c.obj
+[43/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/ring_buffer.c.obj
+[44/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/cbprintf_packaged.c.obj
+[45/321] Generating linker_zephyr_pre0.cmd
+[46/321] Building ASM object zephyr/arch/arch/xtensa/core/CMakeFiles/arch__xtensa__core.dir/window_vectors.S.obj
+[47/321] Building C object zephyr/arch/common/CMakeFiles/arch__common.dir/sw_isr_common.c.obj
+[48/321] Building C object zephyr/arch/common/CMakeFiles/isr_tables.dir/isr_tables.c.obj
+[49/321] Building C object zephyr/CMakeFiles/zephyr_pre0.dir/misc/empty_file.c.obj
+[50/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/rb.c.obj
+[51/321] Building ASM object zephyr/arch/arch/xtensa/core/CMakeFiles/arch__xtensa__core.dir/xtensa_asm2_util.S.obj
+[52/321] Building C object zephyr/arch/arch/xtensa/core/CMakeFiles/arch__xtensa__core.dir/cpu_idle.c.obj
+[53/321] Linking C static library zephyr/arch/common/libisr_tables.a
+[54/321] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/bitarray.c.obj
+[55/321] Building C object zephyr/arch/arch/xtensa/core/CMakeFiles/arch__xtensa__core.dir/fatal.c.obj
+[56/321] Linking C static library zephyr/arch/common/libarch__common.a
+[57/321] Building ASM object zephyr/arch/arch/xtensa/core/CMakeFiles/arch__xtensa__core.dir/crt1.S.obj
+[58/321] Linking C static library zephyr/libzephyr.a
+[59/321] Building C object zephyr/arch/arch/xtensa/core/CMakeFiles/arch__xtensa__core.dir/irq_manage.c.obj
+[60/321] Building ASM object zephyr/arch/arch/xtensa/core/startup/CMakeFiles/arch__xtensa__core__startup.dir/memerror_vector.S.obj
+[61/321] Building ASM object zephyr/arch/arch/xtensa/core/CMakeFiles/arch__xtensa__core.dir/debug_helpers_asm.S.obj
+[62/321] Building C object zephyr/arch/arch/xtensa/core/CMakeFiles/arch__xtensa__core.dir/thread.c.obj
+[63/321] Building C object zephyr/arch/arch/xtensa/core/CMakeFiles/arch__xtensa__core.dir/prep_c.c.obj
+[64/321] Building ASM object zephyr/arch/arch/xtensa/core/startup/CMakeFiles/arch__xtensa__core__startup.dir/memctl_default.S.obj
+[65/321] Building ASM object zephyr/arch/arch/xtensa/core/startup/CMakeFiles/arch__xtensa__core__startup.dir/reset_vector.S.obj
+[66/321] Building C object zephyr/arch/arch/xtensa/core/CMakeFiles/arch__xtensa__core.dir/xtensa_backtrace.c.obj
+[67/321] Building C object zephyr/arch/arch/xtensa/core/CMakeFiles/arch__xtensa__core.dir/tls.c.obj
+[68/321] Linking ASM static library zephyr/arch/arch/xtensa/core/startup/libarch__xtensa__core__startup.a
+[69/321] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/assert.c.obj
+[70/321] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/errno_wrap.c.obj
+[71/321] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/chk_fail.c.obj
+[72/321] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/cbprintf.c.obj
+[73/321] Building C object zephyr/arch/arch/xtensa/core/CMakeFiles/arch__xtensa__core.dir/vector_handlers.c.obj
+[74/321] Linking C static library zephyr/arch/arch/xtensa/core/libarch__xtensa__core.a
+[75/321] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/exit.c.obj
+[76/321] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/locks.c.obj
+[77/321] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/stdlib/abort.c.obj
+[78/321] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/stdio.c.obj
+[79/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/fft_flexbuffers_generated_data.cc.obj
+[80/321] Building C object zephyr/drivers/timer/CMakeFiles/drivers__timer.dir/sys_clock_init.c.obj
+[81/321] Building C object zephyr/drivers/console/CMakeFiles/drivers__console.dir/xtensa_sim_console.c.obj
+[82/321] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/stdlib/malloc.c.obj
+[83/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/window_flexbuffers_generated_data.cc.obj
+[84/321] Linking C static library zephyr/lib/libc/picolibc/liblib__libc__picolibc.a
+[85/321] Linking C static library zephyr/lib/libc/common/liblib__libc__common.a
+[86/321] Building C object zephyr/drivers/timer/CMakeFiles/drivers__timer.dir/xtensa_sys_timer.c.obj
+[87/321] Linking C static library zephyr/drivers/console/libdrivers__console.a
+[88/321] Linking C static library zephyr/drivers/timer/libdrivers__timer.a
+[89/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/window.cc.obj
+[90/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/rfft_float.cc.obj
+[91/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/rfft_int32.cc.obj
+[92/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/rfft_int16.cc.obj
+[93/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/compiler/mlir/lite/core/api/error_reporter.cc.obj
+[94/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/kiss_fft_wrappers/kiss_fft_int16.cc.obj
+[95/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/kiss_fft_wrappers/kiss_fft_float.cc.obj
+[96/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/debug_log.cc.obj
+[97/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/array.cc.obj
+[98/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/core/c/common.cc.obj
+[99/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/src/kiss_fft_wrappers/kiss_fft_int32.cc.obj
+[100/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/hexdump.cc.obj
+[101/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/xtensa/fft_auto_scale_kernel.cc.obj
+[102/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/filter_bank.cc.obj
+[103/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/energy.cc.obj
+[104/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/fft_auto_scale_common.cc.obj
+[105/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/micro_time.cc.obj
+[106/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/pcan.cc.obj
+[107/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/xtensa/filter_bank_square_root.cc.obj
+[108/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/micro_profiler.cc.obj
+[109/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/filter_bank_spectral_subtraction.cc.obj
+[110/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/filter_bank_log.cc.obj
+[111/321] Building CXX object CMakeFiles/app.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/filter_bank_square_root_common.cc.obj
+[112/321] Building CXX object CMakeFiles/app.dir/src/main_functions.cpp.obj
+[113/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/compiler/mlir/lite/schema/schema_utils.cc.obj
+[114/321] Linking CXX static library app/libapp.a
+[115/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/micro_log.cc.obj
+[116/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/window.cc.obj
+[117/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/signal/micro/kernels/rfft.cc.obj
+[118/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/system_setup.cc.obj
+[119/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/memory_helpers.cc.obj
+[120/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/python/tflite_micro/python_ops_resolver.cc.obj
+[121/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/arena_allocator/recording_single_arena_buffer_allocator.cc.obj
+[122/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/fake_micro_context.cc.obj
+[123/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/micro_allocation_info.cc.obj
+[124/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/tflite_bridge/micro_error_reporter.cc.obj
+[125/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/memory_planner/linear_memory_planner.cc.obj
+[126/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/memory_planner/greedy_memory_planner.cc.obj
+[127/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/kernels/internal/common.cc.obj
+[128/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/kernels/internal/quantization_util.cc.obj
+[129/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/kernels/internal/portable_tensor_utils.cc.obj
+[130/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/test_helpers.cc.obj
+[131/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/kernels/internal/tensor_ctypes.cc.obj
+[132/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/kernels/internal/tensor_utils.cc.obj
+[133/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/kernels/internal/reference/comparisons.cc.obj
+[134/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/micro_utils.cc.obj
+[135/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/mock_micro_graph.cc.obj
+[136/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/kernels/kernel_util.cc.obj
+[137/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/core/api/tensor_utils.cc.obj
+[138/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/kernels/internal/reference/portable_tensor_utils.cc.obj
+[139/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/test_helper_custom_ops.cc.obj
+[140/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/recording_micro_allocator.cc.obj
+[141/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/flatbuffer_utils.cc.obj
+[142/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/micro_context.cc.obj
+[143/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/micro_interpreter_graph.cc.obj
+[144/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/micro_interpreter_context.cc.obj
+[145/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/micro_op_resolver.cc.obj
+[146/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/arena_allocator/persistent_arena_buffer_allocator.cc.obj
+[147/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/arena_allocator/non_persistent_arena_buffer_allocator.cc.obj
+[148/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/micro_interpreter.cc.obj
+[149/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/tflite_bridge/flatbuffer_conversions_bridge.cc.obj
+[150/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/micro_allocator.cc.obj
+[151/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/arena_allocator/single_arena_buffer_allocator.cc.obj
+[152/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/micro_resource_variable.cc.obj
+[153/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/activations_common.cc.obj
+[154/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/add_n.cc.obj
+[155/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/arg_min_max.cc.obj
+[156/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/add_common.cc.obj
+[157/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/activations.cc.obj
+[158/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/decompress.cc.obj
+[159/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/decompress_common.cc.obj
+[160/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/add.cc.obj
+[161/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/assign_variable.cc.obj
+[162/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/call_once.cc.obj
+[163/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/batch_matmul.cc.obj
+[164/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/batch_to_space_nd.cc.obj
+[165/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/broadcast_args.cc.obj
+[166/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/ceil.cc.obj
+[167/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/broadcast_to.cc.obj
+[168/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/circular_buffer_common.cc.obj
+[169/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/cast.cc.obj
+[170/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/ethosu.cc.obj
+[171/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/circular_buffer.cc.obj
+[172/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/comparisons.cc.obj
+[173/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/core/api/flatbuffer_conversions.cc.obj
+[174/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/conv_common.cc.obj
+[175/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/conv.cc.obj
+[176/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/dequantize_common.cc.obj
+[177/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/depth_to_space.cc.obj
+[178/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/concatenation.cc.obj
+[179/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/cumsum.cc.obj
+[180/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/dequantize.cc.obj
+[181/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/elementwise.cc.obj
+[182/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/depthwise_conv.cc.obj
+[183/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/depthwise_conv_common.cc.obj
+[184/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/detection_postprocess.cc.obj
+[185/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/elu.cc.obj
+[186/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/div.cc.obj
+[187/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/expand_dims.cc.obj
+[188/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/embedding_lookup.cc.obj
+[189/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/exp.cc.obj
+[190/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/floor.cc.obj
+[191/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/fill.cc.obj
+[192/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/fully_connected_common.cc.obj
+[193/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/floor_mod.cc.obj
+[194/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/floor_div.cc.obj
+[195/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/fully_connected.cc.obj
+[196/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/gather.cc.obj
+[197/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/hard_swish.cc.obj
+[198/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/kernel_util.cc.obj
+[199/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/gather_nd.cc.obj
+[200/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/kernel_runner.cc.obj
+[201/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/hard_swish_common.cc.obj
+[202/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/if.cc.obj
+[203/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/l2norm.cc.obj
+[204/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/l2_pool_2d.cc.obj
+[205/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/micro_tensor_utils.cc.obj
+[206/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/logical_common.cc.obj
+[207/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/logical.cc.obj
+[208/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/leaky_relu.cc.obj
+[209/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/leaky_relu_common.cc.obj
+[210/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/logistic.cc.obj
+[211/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/logistic_common.cc.obj
+[212/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/lstm_eval_common.cc.obj
+[213/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/neg.cc.obj
+[214/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/log_softmax.cc.obj
+[215/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/pooling_common.cc.obj
+[216/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/lstm_eval.cc.obj
+[217/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/pad.cc.obj
+[218/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/mirror_pad.cc.obj
+[219/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/maximum_minimum.cc.obj
+[220/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/pack.cc.obj
+[221/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/pooling.cc.obj
+[222/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/mul.cc.obj
+[223/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/prelu.cc.obj
+[224/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/mul_common.cc.obj
+[225/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/prelu_common.cc.obj
+[226/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/quantize.cc.obj
+[227/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/quantize_common.cc.obj
+[228/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/read_variable.cc.obj
+[229/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/reduce.cc.obj
+[230/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/reshape.cc.obj
+[231/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/resize_nearest_neighbor.cc.obj
+[232/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/reshape_common.cc.obj
+[233/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/reduce_common.cc.obj
+[234/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/softmax_common.cc.obj
+[235/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/select.cc.obj
+[236/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/shape.cc.obj
+[237/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/round.cc.obj
+[238/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/resize_bilinear.cc.obj
+[239/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/softmax.cc.obj
+[240/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/slice.cc.obj
+[241/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/space_to_depth.cc.obj
+[242/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/split_v.cc.obj
+[243/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/split.cc.obj
+[244/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/space_to_batch_nd.cc.obj
+[245/321] Building ASM object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/cache_asm.S.obj
+[246/321] Building C object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/attribute.c.obj
+[247/321] Building C object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/cache.c.obj
+[248/321] Building ASM object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/clock.S.obj
+[249/321] Building C object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/coherence.c.obj
+[250/321] Building C object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/debug.c.obj
+[251/321] Building ASM object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/debug_hndlr.S.obj
+[252/321] Building ASM object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/int_asm.S.obj
+[253/321] Building C object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/disass.c.obj
+[254/321] Building ASM object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/memcopy.S.obj
+[255/321] Building ASM object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/mem_ecc_parity.S.obj
+[256/321] Building C object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/interrupts.c.obj
+[257/321] Building C object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/misc.c.obj
+[258/321] Building ASM object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/miscellaneous.S.obj
+[259/321] Building C object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/mmu.c.obj
+[260/321] Building ASM object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/mp_asm.S.obj
+[261/321] Building ASM object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/state_asm.S.obj
+[262/321] Building C object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/set_region_translate.c.obj
+[263/321] Building C object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/state.c.obj
+[264/321] Building ASM object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/syscache_asm.S.obj
+[265/321] Building ASM object modules/xtensa/CMakeFiles/modules_xtensa_hal.dir/src/hal/windowspill_asm.S.obj
+[266/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/main_weak.c.obj
+[267/321] Linking C static library modules/xtensa/libmodules_xtensa_hal.a
+[268/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/squeeze.cc.obj
+[269/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/banner.c.obj
+[270/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/squared_difference.cc.obj
+[271/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/busy_wait.c.obj
+[272/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/device.c.obj
+[273/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/init_static.c.obj
+[274/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/errno.c.obj
+[275/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/fatal.c.obj
+[276/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/init.c.obj
+[277/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/kheap.c.obj
+[278/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/version.c.obj
+[279/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/float.c.obj
+[280/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/mem_slab.c.obj
+[281/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/idle.c.obj
+[282/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/mailbox.c.obj
+[283/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/mutex.c.obj
+[284/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/msg_q.c.obj
+[285/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/sem.c.obj
+[286/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/system_work_q.c.obj
+[287/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/queue.c.obj
+[288/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/stack.c.obj
+[289/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/condvar.c.obj
+[290/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/priority_queues.c.obj
+[291/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/work.c.obj
+[292/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/thread.c.obj
+[293/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/timeslicing.c.obj
+[294/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/pipe.c.obj
+[295/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/timeout.c.obj
+[296/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/mempool.c.obj
+[297/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/dynamic_disabled.c.obj
+[298/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/timer.c.obj
+[299/321] Building C object zephyr/kernel/CMakeFiles/kernel.dir/sched.c.obj
+[300/321] Linking C static library zephyr/kernel/libkernel.a
+[301/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/strided_slice.cc.obj
+[302/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/strided_slice_common.cc.obj
+[303/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/svdf.cc.obj
+[304/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/sub.cc.obj
+[305/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/sub_common.cc.obj
+[306/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/unidirectional_sequence_lstm.cc.obj
+[307/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/tanh.cc.obj
+[308/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/transpose.cc.obj
+[309/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/while.cc.obj
+[310/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/var_handle.cc.obj
+[311/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/svdf_common.cc.obj
+[312/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/transpose_conv.cc.obj
+[313/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/unpack.cc.obj
+[314/321] Building CXX object modules/tflite-micro/CMakeFiles/modules__tflite-micro.dir/home/thongp/zephyrproject/optional/modules/lib/tflite-micro/tensorflow/lite/micro/kernels/zeros_like.cc.obj
+[315/321] Linking CXX static library modules/tflite-micro/libmodules__tflite-micro.a
+[316/321] Linking CXX executable zephyr/zephyr_pre0.elf
+/home/thongp/zephyr-sdk-0.17.0/xtensa-dc233c_zephyr-elf/bin/../lib/gcc/xtensa-dc233c_zephyr-elf/12.2.0/../../../../xtensa-dc233c_zephyr-elf/bin/ld.bfd: warning: orphan section `.note.GNU-stack' from `app/libapp.a(xtensa_square_root.S.obj)' being placed in section `.note.GNU-stack'
+[317/321] Generating linker.cmd
+[318/321] Generating isr_tables.c, isr_tables_vt.ld, isr_tables_swi.ld
+[319/321] Building C object zephyr/CMakeFiles/zephyr_final.dir/misc/empty_file.c.obj
+[320/321] Building C object zephyr/CMakeFiles/zephyr_final.dir/isr_tables.c.obj
+[321/321] Linking CXX executable zephyr/zephyr.elf
+/home/thongp/zephyr-sdk-0.17.0/xtensa-dc233c_zephyr-elf/bin/../lib/gcc/xtensa-dc233c_zephyr-elf/12.2.0/../../../../xtensa-dc233c_zephyr-elf/bin/ld.bfd: warning: orphan section `.note.GNU-stack' from `app/libapp.a(xtensa_square_root.S.obj)' being placed in section `.note.GNU-stack'
+Memory region         Used Size  Region Size  %age Used
+         vectors:         970 B         9 KB     10.53%
+             RAM:      386080 B     16375 KB      2.30%
+        rom0_seg:         296 B        16 KB      1.81%
+        IDT_LIST:          0 GB         8 KB      0.00%
+Generating files from /home/thongp/zephyrproject/zephyr/samples/modules/tflite-micro/gsoc_application/micro_speech/build/zephyr/zephyr.elf for board: qemu_xtensa

@@ -1,0 +1,42 @@
+-- west build: running target run
+[0/1] To exit from QEMU enter: 'CTRL+a, x'[QEMU] CPU: dc233c
+*** Booting Zephyr OS build v4.1.0-rc3-153-g9cf65d6eb1ab ***
+MicroSpeech porting to qemu_xtensa
+Processing 'yes' audio sample...
+AudioPreprocessor model arena size = 8808
+MicroSpeech model arena size = 6908
+MicroSpeech category predictions for <yes>
+  0.0000 silence
+  0.0000 unknown
+  0.9961 yes
+  0.0000 no
+Detected: yes (Expected: yes)
+Processing 'no' audio sample...
+AudioPreprocessor model arena size = 8808
+MicroSpeech model arena size = 6908
+MicroSpeech category predictions for <no>
+  0.0000 silence
+  0.0547 unknown
+  0.0000 yes
+  0.9453 no
+Detected: no (Expected: no)
+Processing 'silence' audio sample...
+AudioPreprocessor model arena size = 8808
+MicroSpeech model arena size = 6908
+MicroSpeech category predictions for <silence>
+  0.3359 silence
+  0.2344 unknown
+  0.2344 yes
+  0.1953 no
+Detected: silence (Expected: silence)
+Processing 'noise' audio sample...
+AudioPreprocessor model arena size = 8808
+MicroSpeech model arena size = 6908
+MicroSpeech category predictions for <noise>
+  0.9688 silence
+  0.0117 unknown
+  0.0078 yes
+  0.0117 no
+Detected: silence (Expected: noise)
+Recognition mismatch!
+ninja: build stopped: interrupted by user.
