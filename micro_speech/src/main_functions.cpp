@@ -12,10 +12,6 @@
 #include "../tflite/audio_preprocessor_int8_model_data.h"
 #include "../tflite/micro_speech_quantized_model_data.h"
 
-// #include "tensorflow/lite/micro/examples/micro_speech/micro_model_settings.h"
-// #include "tensorflow/lite/micro/examples/micro_speech/models/audio_preprocessor_int8_model_data.h"
-// #include "tensorflow/lite/micro/examples/micro_speech/models/micro_speech_quantized_model_data.h"
-
 /* test input */
 #include "no_1000ms_audio_data.h"
 #include "yes_1000ms_audio_data.h"
@@ -339,7 +335,7 @@ void loop() {
     }
 
     MicroPrintf("Processing 'noise' audio sample...");
-    ret = micro_speech_process_audio("noise", g_noise_1000ms_audio_data, g_noise_1000ms_audio_data_size);
+    ret = micro_speech_process_audio("silence", g_noise_1000ms_audio_data, g_noise_1000ms_audio_data_size);
     if (ret != 0) {
         MicroPrintf("Failed to process 'noise' sample: %d", ret);
     }

@@ -32,11 +32,10 @@ Detected: silence (Expected: silence)
 Processing 'noise' audio sample...
 AudioPreprocessor model arena size = 8808
 MicroSpeech model arena size = 6908
-MicroSpeech category predictions for <noise>
+MicroSpeech category predictions for <silence>
   0.9688 silence
   0.0117 unknown
   0.0078 yes
   0.0117 no
-Detected: silence (Expected: noise)
-Recognition mismatch!
+Detected: silence (Expected: silence)
 ninja: build stopped: interrupted by user.
