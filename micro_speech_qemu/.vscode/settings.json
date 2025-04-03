@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "cstdint": "cpp",
-        "micro_speech.h": "c"
-    }
-}
