@@ -1,0 +1,72 @@
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF32
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              EXEC (Executable file)
+  Machine:                           Tensilica Xtensa Processor
+  Version:                           0x1
+  Entry point address:               0xfe000000
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          11356248 (bytes into file)
+  Flags:                             0x300
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         4
+  Size of section headers:           40 (bytes)
+  Number of section headers:         30
+  Section header string table index: 29
+
+Section Headers:
+  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            00000000 000000 000000 00      0   0  0
+  [ 1] .z_xtensa_vectors PROGBITS        00002000 000400 0003ca 00  AX  0   0 1024
+  [ 2] .ResetVector.text PROGBITS        fe000000 0555c0 000128 00  AX  0   0 16
+  [ 3] .text             PROGBITS        00002400 0007d0 029820 00 WAX  0   0  4
+  [ 4] .rodata           PROGBITS        0002bc20 029ff0 0247e8 00   A  0   0 16
+  [ 5] initlevel         PROGBITS        00050408 04e7d8 000018 00   A  0   0  4
+  [ 6] sw_isr_table      PROGBITS        00050420 04e7f0 0000b0 00  WA  0   0  4
+  [ 7] ctors             PROGBITS        000504d0 04e8a0 00000c 00  WA  0   0  1
+  [ 8] init_array        INIT_ARRAY      000504dc 04e8ac 000008 04  WA  0   0  4
+  [ 9] tbss              NOBITS          000504e4 04e8b4 000008 00 WAT  0   0  4
+  [10] .gcc_except_table PROGBITS        000504e4 04e8b4 000112 00   A  0   0  4
+  [11] .rodata_end       PROGBITS        000505f8 04e9c8 000008 00  WA  0   0  4
+  [12] .data             PROGBITS        00050600 04e9d0 006bf0 00  WA  0   0  4
+  [13] .bss              NOBITS          000571f0 0555c0 007a68 00  WA  0   0 16
+  [14] noinit            NOBITS          0005ec60 0555c0 001c00 00  WA  0   0 16
+  [15] .comment          PROGBITS        00000000 0556e8 000020 01  MS  0   0  1
+  [16] .debug_aranges    PROGBITS        00000000 055708 004b20 00      0   0  8
+  [17] .debug_info       PROGBITS        00000000 05a228 69a2b3 00      0   0  1
+  [18] .debug_abbrev     PROGBITS        00000000 6f44db 053504 00      0   0  1
+  [19] .debug_line       PROGBITS        00000000 7479df 11a56c 00      0   0  1
+  [20] .debug_frame      PROGBITS        00000000 861f4c 00fd80 00      0   0  4
+  [21] .debug_str        PROGBITS        00000000 871ccc 122e8a 01  MS  0   0  1
+  [22] .debug_loc        PROGBITS        00000000 994b56 0cf26a 00      0   0  1
+  [23] .debug_ranges     PROGBITS        00000000 a63dc0 023170 00      0   0  8
+  [24] .xtensa.info      NOTE            00000000 a86f30 000038 00      0   0  1
+  [25] .xt.prop          PROGBITS        00000000 a86f68 022e18 00      0   0  1
+  [26] .xt.lit           PROGBITS        00000000 aa9d80 000ad8 00      0   0  1
+  [27] .symtab           SYMTAB          00000000 aaa858 00c2c0 10     28 845  4
+  [28] .strtab           STRTAB          00000000 ab6b18 01dc15 00      0   0  1
+  [29] .shstrtab         STRTAB          00000000 ad472d 00012b 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+  L (link order), O (extra OS processing required), G (group), T (TLS),
+  C (compressed), x (unknown), o (OS specific), E (exclude),
+  D (mbind), p (processor specific)
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  LOAD           0x000400 0x00002000 0x00002000 0x003ca 0x003ca R E 0x400
+  LOAD           0x0555c0 0xfe000000 0xfe000000 0x00128 0x00128 R E 0x10
+  LOAD           0x0007d0 0x00002400 0x00002400 0x54df0 0x5e460 RWE 0x10
+  LOAD           0x000000 0x000571f0 0x000571f0 0x00000 0x07a68 RW  0x10
+
+ Section to Segment mapping:
+  Segment Sections...
+   00     .z_xtensa_vectors 
+   01     .ResetVector.text 
+   02     .text .rodata initlevel sw_isr_table ctors init_array .gcc_except_table .rodata_end .data .bss noinit 
+   03     .bss 

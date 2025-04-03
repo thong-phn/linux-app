@@ -1,0 +1,39 @@
+/dts-v1/;
+
+/ {
+	#address-cells = < 0x1 >;
+	#size-cells = < 0x1 >;
+	model = "qemu_xtensa";
+	compatible = "cdns,xtensa-dc233c";
+	chosen {
+		zephyr,sram = &sram0;
+	};
+	aliases {
+	};
+	cpus {
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x0 >;
+		cpu0: cpu@0 {
+			device_type = "cpu";
+			compatible = "cdns,tensilica-xtensa-lx3";
+			reg = < 0x0 >;
+			clock-frequency = < 0x989680 >;
+		};
+	};
+	sram0: memory@0 {
+		device_type = "memory";
+		compatible = "mmio-sram";
+		reg = < 0x0 0x1000000 >;
+	};
+	rom0: memory@fe000000 {
+		device_type = "memory";
+		compatible = "mmio-sram";
+		reg = < 0xfe000000 0x4000 >;
+	};
+	soc {
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x1 >;
+		compatible = "simple-bus";
+		ranges;
+	};
+};

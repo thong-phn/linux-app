@@ -1,0 +1,4 @@
+west:
+  command: /home/thongp/gsoc/.gsoc_venv/bin/west build -p always -b qemu_xtensa .
+  topdir: /home/thongp/gsoc
+  version: 1.3.0
