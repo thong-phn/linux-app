@@ -1,4 +1,0 @@
-west:
-  command: /home/thongp/zephyrproject/.venv/bin/west build -b None .
-  topdir: /home/thongp/zephyrproject
-  version: 1.3.0
