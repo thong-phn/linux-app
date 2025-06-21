@@ -359,8 +359,8 @@ TfLiteStatus run_micro_speech_inference(const Features& features, const char* ex
     // Send prediction result through rpmsg
     char prediction_buff[256];
     snprintf(prediction_buff, sizeof(prediction_buff), 
-             "[Z] Detected: %s (Expected: %s)\n", 
-             kCategoryLabels[prediction_index], expected_label);
+             "[Z] Detected: %s \n", 
+             kCategoryLabels[prediction_index]);
     
     // Send through rpmsg if TTY endpoint is available
     if (tty_ept.addr != RPMSG_ADDR_ANY) {
