@@ -55,9 +55,8 @@ LOG_MODULE_REGISTER(openamp_rsc_table, LOG_LEVEL_DBG);
 
 #define APP_TASK_STACK_SIZE (1024)
 
-/* Add 1024 extra bytes for the TTY task stack for the "tx_buff" buffer. */
-// #define APP_TTY_TASK_STACK_SIZE (1536)
-#define APP_TTY_TASK_STACK_SIZE (3000)
+/* Add 1024 extra bytes for the TTY task stack for the "tx_buff" buffer and micro-speech application*/
+#define APP_TTY_TASK_STACK_SIZE (3072)
 
 
 K_THREAD_STACK_DEFINE(thread_mng_stack, APP_TASK_STACK_SIZE);
@@ -94,7 +93,7 @@ static struct rpmsg_rcv_msg tty_msg;
 static K_SEM_DEFINE(data_sem, 0, 1);
 static K_SEM_DEFINE(data_tty_sem, 0, 1);
 
-static int16_t file_buffer[16000];  // 480 samples × 2 bytes = 960 bytes
+static int16_t file_buffer[16000];      // 
 static uint32_t file_size_bytes = 0;     // Track size in bytes
 static uint32_t file_size_samples = 0;   // Track size in samples
 static uint32_t chunk_count = 0;         // Number of chunks received
@@ -688,7 +687,6 @@ task_end:
 
 
 void setup() {
-    printf("MicroSpeech porting to qemu_xtensa\n");
     LOG_INF("Starting OpenAMP application threads!");
     
     // Create the management thread

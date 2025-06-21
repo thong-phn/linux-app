@@ -53,7 +53,8 @@ int main(int argc, char* argv[]) {
         close(tty_fd);
         return 1;
     }
-    printf("[L] Skipped WAV header (%d bytes), starting audio data transfer...\n", WAV_HEADER_SIZE);
+
+    printf("[L] Skipped WAV header (%d bytes), starting audio data transfer \n", WAV_HEADER_SIZE);
     
     // Simple loop with fixed delay
     int chunk_number = 0;
@@ -61,14 +62,14 @@ int main(int argc, char* argv[]) {
         chunk_number++;
         printf("[L] Audio Chunk %d: %zd bytes\n", chunk_number, bytes_read);
         
-        // Print first few bytes of chunk for debugging (only first chunk)
-        if (chunk_number == 1) {
-            printf("[L] First 16 bytes of audio data: ");
-            for (int i = 0; i < (bytes_read < 16 ? bytes_read : 16); i++) {
-                printf("%02x ", (unsigned char)buffer[i]);
-            }
-            printf("\n");
-        }
+        // // Print first few bytes of chunk for debugging (only first chunk)
+        // if (chunk_number == 1) {
+        //     printf("[L] First 16 bytes of audio data: ");
+        //     for (int i = 0; i < (bytes_read < 16 ? bytes_read : 16); i++) {
+        //         printf("%02x ", (unsigned char)buffer[i]);
+        //     }
+        //     printf("\n");
+        // }
         
         bytes_sent = write(tty_fd, buffer, bytes_read);
         if (bytes_sent < 0) {
@@ -80,7 +81,7 @@ int main(int argc, char* argv[]) {
         printf("[L] Sent %zd bytes (total audio data: %d)\n", bytes_sent, total_sent);
         
         // Fixed delay between chunks
-        usleep(DELAY_MS * 1000);  // Convert ms to microseconds
+        usleep(DELAY_MS * 1000); 
     }
     
     // Send EOF marker to signal end of transfer
