@@ -1,0 +1,23 @@
+# Available runners configured by board.cmake.
+runners:
+- misc-flasher
+
+# Default flash runner if --runner is not given.
+flash-runner: misc-flasher
+
+# Common runner configuration values.
+config:
+  board_dir: /home/thongp/zephyrproject/zephyr/boards/nxp/imx8mp_evk
+  # Build outputs:
+  elf_file: zephyr_openamp_rsc_table.elf
+  # Host tools:
+  gdb: /home/thongp/zephyr-sdk-0.17.0/xtensa-nxp_imx8m_adsp_zephyr-elf/bin/xtensa-nxp_imx8m_adsp_zephyr-elf-gdb
+  openocd: /home/thongp/zephyr-sdk-0.17.0/sysroots/x86_64-pokysdk-linux/usr/bin/openocd
+  openocd_search:
+    - /home/thongp/zephyr-sdk-0.17.0/sysroots/x86_64-pokysdk-linux/usr/share/openocd/scripts
+
+# Runner specific arguments
+args:
+  misc-flasher:
+    []
+
