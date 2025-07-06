@@ -1,2 +1,0 @@
-# Load Zephyr board defconfig descriptions.
-osource "/home/thongp/zephyrproject/zephyr/boards/nxp/imx8mp_evk/Kconfig.defconfig"
