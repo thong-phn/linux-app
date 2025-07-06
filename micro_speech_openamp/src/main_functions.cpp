@@ -1,9 +1,6 @@
-// No shut down requested
-
 #include "main_functions.hpp"
 
-#include <zephyr/logging/log.h>
-
+/* tflite */
 #include "tensorflow/lite/core/c/common.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/micro/micro_log.h"
@@ -14,21 +11,18 @@
 #include "../tflite/audio_preprocessor_int8_model_data.h"
 #include "../tflite/micro_speech_quantized_model_data.h"
 
-/* test input */
-#include "no_1000ms_audio_data.h"
-#include "yes_1000ms_audio_data.h"
-#include "silence_1000ms_audio_data.h"
-#include "noise_1000ms_audio_data.h"
-
 /* rpmsg start */
-#include <zephyr/kernel.h>
-#include <zephyr/device.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+
+#include <zephyr/kernel.h>
+#include <zephyr/device.h>
 #include <zephyr/drivers/ipm.h>
+#include <zephyr/logging/log.h>
+LOG_MODULE_REGISTER(openamp_rsc_table, LOG_LEVEL_DBG);
 
 #include <openamp/open_amp.h>
 #include <metal/sys.h>
@@ -38,9 +32,6 @@
 #ifdef CONFIG_SHELL_BACKEND_RPMSG
 #include <zephyr/shell/shell_rpmsg.h>
 #endif
-
-#include <zephyr/logging/log.h>
-LOG_MODULE_REGISTER(openamp_rsc_table, LOG_LEVEL_DBG);
 
 #define SHM_DEVICE_NAME	"shm"
 
@@ -55,15 +46,18 @@ LOG_MODULE_REGISTER(openamp_rsc_table, LOG_LEVEL_DBG);
 
 #define APP_TASK_STACK_SIZE (1024)
 
-/* Add 1024 extra bytes for the TTY task stack for the "tx_buff" buffer and micro-speech application*/
-#define APP_TTY_TASK_STACK_SIZE (3072)
+/* Stack sizes for different threads */
+#define APP_RECEIVE_TASK_STACK_SIZE (2048)
+#define APP_AUDIO_PROCESSING_TASK_STACK_SIZE (4096)
 
 
 K_THREAD_STACK_DEFINE(thread_mng_stack, APP_TASK_STACK_SIZE);
-K_THREAD_STACK_DEFINE(thread_tty_stack, APP_TTY_TASK_STACK_SIZE);
+K_THREAD_STACK_DEFINE(thread_receive_stack, APP_RECEIVE_TASK_STACK_SIZE);
+K_THREAD_STACK_DEFINE(thread_audio_processing_stack, APP_AUDIO_PROCESSING_TASK_STACK_SIZE);
 
 static struct k_thread thread_mng_data;
-static struct k_thread thread_tty_data;
+static struct k_thread thread_receive_data;
+static struct k_thread thread_audio_processing_data;
 
 static const struct device *const ipm_handle =
 	DEVICE_DT_GET(DT_CHOSEN(zephyr_ipc));
@@ -93,10 +87,23 @@ static struct rpmsg_rcv_msg tty_msg;
 static K_SEM_DEFINE(data_sem, 0, 1);
 static K_SEM_DEFINE(data_tty_sem, 0, 1);
 
-static int16_t file_buffer[16000];      // 
-static uint32_t file_size_bytes = 0;     // Track size in bytes
-static uint32_t file_size_samples = 0;   // Track size in samples
-static uint32_t chunk_count = 0;         // Number of chunks received
+/* Inter-thread communication for audio processing */
+static K_SEM_DEFINE(audio_data_ready_sem, 0, 1);
+static K_SEM_DEFINE(audio_processing_complete_sem, 1, 1); // Start with 1 to indicate ready
+static K_MUTEX_DEFINE(audio_buffer_mutex);
+
+/* Double buffering for continuous data reception */
+static int16_t tx_buffer_a[16000];           // Processing buffer A (32000 bytes = 16000 samples)
+static int16_t tx_buffer_b[16000];           // Processing buffer B (32000 bytes = 16000 samples)
+static int16_t *current_tx_buffer;           // Pointer to current active buffer
+static int16_t *processing_buffer;           // Pointer to buffer being processed
+static int8_t count = 0;
+/* Audio buffers */
+static int16_t file_buffer[16000];           // Input buffer from rpmsg (32000 bytes = 16000 samples)
+static uint32_t file_size_bytes = 0;        // Track size in bytes
+static uint32_t file_size_samples = 0;      // Track size in samples
+static uint32_t chunk_count = 0;            // Number of chunks received
+static bool audio_ready = false;            // Flag indicating audio data is ready for processing
 
 /* rpmsg end */
 
@@ -358,9 +365,11 @@ TfLiteStatus run_micro_speech_inference(const Features& features, const char* ex
 
     // Send prediction result through rpmsg
     char prediction_buff[256];
+    count++;
     snprintf(prediction_buff, sizeof(prediction_buff), 
-             "[Z] Detected: %s \n", 
-             kCategoryLabels[prediction_index]);
+             "[Z] Detected: %s, count: %d \n", 
+             kCategoryLabels[prediction_index], count);
+
     
     // Send through rpmsg if TTY endpoint is available
     if (tty_ept.addr != RPMSG_ADDR_ANY) {
@@ -555,7 +564,7 @@ failed:
 	return NULL;
 }
 
-void app_rpmsg_tty(void *arg1, void *arg2, void *arg3)
+void app_receive_data_thread(void *arg1, void *arg2, void *arg3)
 {
 	ARG_UNUSED(arg1);
 	ARG_UNUSED(arg2);
@@ -563,81 +572,212 @@ void app_rpmsg_tty(void *arg1, void *arg2, void *arg3)
 
 	char tx_buff[512];
 	int ret = 0;
+	uint32_t current_buffer_bytes = 0;
+	const uint32_t CHUNK_SIZE = 496;  // 496 bytes every 100ms
+	const uint32_t BUFFER_SIZE = 32000; // 1 second of audio data
 
-	k_sem_take(&data_tty_sem,  K_FOREVER);
+	k_sem_take(&data_tty_sem, K_FOREVER);
 
 	tty_ept.priv = &tty_msg;
 	ret = rpmsg_create_ept(&tty_ept, rpdev, "rpmsg-tty",
 			       RPMSG_ADDR_ANY, RPMSG_ADDR_ANY,
 			       rpmsg_recv_tty_callback, NULL);
 	if (ret) {
-		LOG_ERR("[Linux TTY] Could not create endpoint: %d", ret);
+		LOG_ERR("[Data Receiver] Could not create endpoint: %d", ret);
 		goto task_end;
 	}
 
 	// Send ready message
-	snprintf(tx_buff, sizeof(tx_buff), "[Z] Ready to receive\n");
-    rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
+	snprintf(tx_buff, sizeof(tx_buff), "[Z] Data receiver ready\n");
+	rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
 	
-	// Counter
-	file_size_bytes = 0;
+	// Reset counters and initialize double buffering
+	current_buffer_bytes = 0;
 	chunk_count = 0;
+	current_tx_buffer = tx_buffer_a;
+	processing_buffer = tx_buffer_b;
 
-    while (tty_ept.addr != RPMSG_ADDR_ANY) {
-        k_sem_take(&data_tty_sem, K_FOREVER);
-        if (tty_msg.len) {
-            // Check for end marker
-            if (tty_msg.len == 3 && memcmp(tty_msg.data, "EOF", 3) == 0) {
-                // Process the file
-                snprintf(tx_buff, sizeof(tx_buff), 
-                        "[Z] Feed audio data to micro-speech\n");
-                rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
-
-                ret = micro_speech_process_audio("yes", file_buffer, file_size_samples);
-                if (ret != 0) {
-                    MicroPrintf("Failed to process 'yes' sample: %d", ret);
-                    // Debug print
-                    snprintf(tx_buff, sizeof(tx_buff), 
-                            "[Z] Failed to process 'yes' sample: %d\n", ret);
-                    rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
-                }
-                // Debug print
-                snprintf(tx_buff, sizeof(tx_buff), 
-                        "[Z] Transfer complete: %u bytes in %u chunks\n", file_size_bytes, chunk_count);
-                rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
-                
-                // Reset for next transfer
-                file_size_bytes = 0;
-                file_size_samples = 0;
-            } else {
-                chunk_count++;
-                
-                // Copy chunk to file buffer (treating as bytes)
-                uint8_t* buffer_as_bytes = (uint8_t*)file_buffer;
-                if (file_size_bytes + tty_msg.len <= sizeof(file_buffer)) {
-                    memcpy(&buffer_as_bytes[file_size_bytes], tty_msg.data, tty_msg.len);
-                    file_size_bytes += tty_msg.len;
-                    file_size_samples = file_size_bytes / sizeof(int16_t);
-                    
-                    // Debug print
-                    snprintf(tx_buff, sizeof(tx_buff),
-                        "[Z] Chunk %u: %d bytes (total: %u bytes, %u samples)\n",
-                        chunk_count, (int)tty_msg.len, file_size_bytes, file_size_samples);
-                    rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
-                }
-            }
-            
-            rpmsg_release_rx_buffer(&tty_ept, tty_msg.data);
-        }
-        tty_msg.len = 0;
-        tty_msg.data = NULL;
-    }
+	while (tty_ept.addr != RPMSG_ADDR_ANY) {
+		k_sem_take(&data_tty_sem, K_FOREVER);
+		if (tty_msg.len) {
+			// Check for end marker
+			if (tty_msg.len == 3 && memcmp(tty_msg.data, "EOF", 3) == 0) {
+				snprintf(tx_buff, sizeof(tx_buff), 
+						"[Z] EOF received, processing accumulated data\n");
+				rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
+				
+				// Process accumulated data if any
+				k_mutex_lock(&audio_buffer_mutex, K_FOREVER);
+				if (current_buffer_bytes > 0) {
+					// Swap buffers for EOF processing
+					int16_t* temp = current_tx_buffer;
+					current_tx_buffer = processing_buffer;
+					processing_buffer = temp;
+					
+					audio_ready = true;
+					file_size_bytes = current_buffer_bytes;
+					file_size_samples = current_buffer_bytes / sizeof(int16_t);
+					
+					snprintf(tx_buff, sizeof(tx_buff),
+						"[Z] EOF: Processing %u bytes (%u samples) before reset\n",
+						current_buffer_bytes, file_size_samples);
+					rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
+					
+					k_mutex_unlock(&audio_buffer_mutex);
+					k_sem_give(&audio_data_ready_sem);
+					
+					// Wait for processing to complete before resetting (only for EOF)
+					k_sem_take(&audio_processing_complete_sem, K_FOREVER);
+					k_mutex_lock(&audio_buffer_mutex, K_FOREVER);
+				}
+				
+				// Reset for next transfer
+				current_buffer_bytes = 0;
+				chunk_count = 0;
+				k_mutex_unlock(&audio_buffer_mutex);
+			} else {
+				chunk_count++;
+				
+				// Receive 496 bytes and copy to current_tx_buffer
+				k_mutex_lock(&audio_buffer_mutex, K_FOREVER);
+				
+				uint8_t* buffer_as_bytes = (uint8_t*)current_tx_buffer;
+				
+				// Check if adding this chunk would overflow the buffer
+				if (current_buffer_bytes + tty_msg.len > BUFFER_SIZE) {
+					// Buffer would overflow, process current buffer first
+					if (current_buffer_bytes > 0) {
+						// Swap buffers - current becomes processing, processing becomes current
+						int16_t* temp = current_tx_buffer;
+						current_tx_buffer = processing_buffer;
+						processing_buffer = temp;
+						
+						audio_ready = true;
+						file_size_bytes = current_buffer_bytes;
+						file_size_samples = current_buffer_bytes / sizeof(int16_t);
+						
+						snprintf(tx_buff, sizeof(tx_buff),
+							"[Z] Buffer threshold reached (%u bytes), swapping buffers and sending to audio processing\n",
+							current_buffer_bytes);
+						rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
+						
+						k_mutex_unlock(&audio_buffer_mutex);
+						k_sem_give(&audio_data_ready_sem);
+						
+						// Reset for new buffer and continue with current chunk
+						k_mutex_lock(&audio_buffer_mutex, K_FOREVER);
+						current_buffer_bytes = 0;
+						buffer_as_bytes = (uint8_t*)current_tx_buffer;
+					}
+				}
+				
+				// Now copy the current chunk to the buffer
+				memcpy(&buffer_as_bytes[current_buffer_bytes], tty_msg.data, tty_msg.len);
+				current_buffer_bytes += tty_msg.len;
+				
+				// Debug print every 10 chunks to reduce overhead
+				if (chunk_count % 10 == 0) {
+					snprintf(tx_buff, sizeof(tx_buff),
+						"[Z] Chunk %u: %d bytes (total: %u bytes)\n",
+						chunk_count, (int)tty_msg.len, current_buffer_bytes);
+					rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
+				}
+				
+				// Check if buffer is exactly full (32000 bytes = 1 second)
+				if (current_buffer_bytes == BUFFER_SIZE) {
+					// Swap buffers - current becomes processing, processing becomes current
+					int16_t* temp = current_tx_buffer;
+					current_tx_buffer = processing_buffer;
+					processing_buffer = temp;
+					
+					audio_ready = true;
+					file_size_bytes = current_buffer_bytes;
+					file_size_samples = current_buffer_bytes / sizeof(int16_t);
+					
+					snprintf(tx_buff, sizeof(tx_buff),
+						"[Z] Buffer exactly full (%u bytes), swapping buffers and sending to audio processing\n",
+						current_buffer_bytes);
+					rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
+					
+					k_mutex_unlock(&audio_buffer_mutex);
+					k_sem_give(&audio_data_ready_sem);
+					
+					// Reset for next buffer - no waiting, continue receiving
+					current_buffer_bytes = 0;
+				} else {
+					k_mutex_unlock(&audio_buffer_mutex);
+				}
+			}
+			
+			rpmsg_release_rx_buffer(&tty_ept, tty_msg.data);
+		}
+		tty_msg.len = 0;
+		tty_msg.data = NULL;
+	}
 	rpmsg_destroy_ept(&tty_ept);
 
 task_end:
-	LOG_INF("OpenAMP Linux TTY responder ended");
-    snprintf(tx_buff, sizeof(tx_buff), "[Z] OpenAMP Linux TTY responder ended\n");
-    rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
+	LOG_INF("Data receiver thread ended");
+	snprintf(tx_buff, sizeof(tx_buff), "[Z] Data receiver thread ended\n");
+	if (tty_ept.addr != RPMSG_ADDR_ANY) {
+		rpmsg_send(&tty_ept, tx_buff, strlen(tx_buff));
+	}
+}
+
+void app_audio_processing_thread(void *arg1, void *arg2, void *arg3)
+{
+	ARG_UNUSED(arg1);
+	ARG_UNUSED(arg2);
+	ARG_UNUSED(arg3);
+
+	char debug_buff[256];
+	int ret = 0;
+
+	LOG_INF("Audio processing thread started");
+
+	while (1) {
+		// Wait for audio data to be ready
+		k_sem_take(&audio_data_ready_sem, K_FOREVER);
+
+		k_mutex_lock(&audio_buffer_mutex, K_FOREVER);
+		
+		if (audio_ready) {
+			// Send debug info
+			if (tty_ept.addr != RPMSG_ADDR_ANY) {
+				snprintf(debug_buff, sizeof(debug_buff), 
+					"[Z] Processing %u samples (%u bytes)\n", 
+					file_size_samples, file_size_bytes);
+				rpmsg_send(&tty_ept, debug_buff, strlen(debug_buff));
+			}
+
+			// Copy data from processing_buffer to file_buffer for processing
+			memcpy(file_buffer, processing_buffer, file_size_bytes);
+			audio_ready = false;
+			
+			k_mutex_unlock(&audio_buffer_mutex);
+
+			// Process the audio data with micro-speech
+			ret = micro_speech_process_audio("NA", file_buffer, file_size_samples);
+			if (ret != 0) {
+				if (tty_ept.addr != RPMSG_ADDR_ANY) {
+					snprintf(debug_buff, sizeof(debug_buff), 
+						"[Z] Failed to process audio sample: %d\n", ret);
+					rpmsg_send(&tty_ept, debug_buff, strlen(debug_buff));
+				}
+			} else {
+				if (tty_ept.addr != RPMSG_ADDR_ANY) {
+					snprintf(debug_buff, sizeof(debug_buff), 
+						"[Z] Audio processing completed successfully\n");
+					rpmsg_send(&tty_ept, debug_buff, strlen(debug_buff));
+				}
+			}
+			
+			// Signal processing completion for EOF synchronization
+			k_sem_give(&audio_processing_complete_sem);
+		} else {
+			k_mutex_unlock(&audio_buffer_mutex);
+		}
+	}
 }
 
 void rpmsg_mng_task(void *arg1, void *arg2, void *arg3)
@@ -694,15 +834,20 @@ void setup() {
         rpmsg_mng_task,
         NULL, NULL, NULL, K_PRIO_COOP(8), 0, K_NO_WAIT);
     
-    // Create the TTY thread  
-    k_thread_create(&thread_tty_data, thread_tty_stack, APP_TTY_TASK_STACK_SIZE,
-        app_rpmsg_tty,
+    // Create the data receiving thread  
+    k_thread_create(&thread_receive_data, thread_receive_stack, APP_RECEIVE_TASK_STACK_SIZE,
+        app_receive_data_thread,
         NULL, NULL, NULL, K_PRIO_COOP(7), 0, K_NO_WAIT);
+    
+    // Create the audio processing thread
+    k_thread_create(&thread_audio_processing_data, thread_audio_processing_stack, APP_AUDIO_PROCESSING_TASK_STACK_SIZE,
+        app_audio_processing_thread,
+        NULL, NULL, NULL, K_PRIO_COOP(6), 0, K_NO_WAIT);
 }
 
 void loop() {
     // Keep the main thread alive and let the other threads do their work
-    // Check if threads are still running
     k_sleep(K_MSEC(1000));
 }
+
 } /* extern "C" */
