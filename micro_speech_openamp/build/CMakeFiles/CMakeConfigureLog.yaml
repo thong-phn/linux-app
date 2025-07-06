@@ -141,8 +141,8 @@ events:
     checks:
       - "Looking for include file stdatomic.h"
     directories:
-      source: "/home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-q2oES6"
-      binary: "/home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-q2oES6"
+      source: "/home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-R2n3gZ"
+      binary: "/home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-R2n3gZ"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/thongp/zephyrproject/zephyr/cmake/modules;/home/thongp/zephyrproject/modules/hal/libmetal/libmetal/cmake;/home/thongp/zephyrproject/modules/hal/libmetal/libmetal/cmake/modules;/home/thongp/zephyrproject/modules/hal/libmetal/libmetal/cmake/platforms"
@@ -150,12 +150,12 @@ events:
       variable: "HAVE_STDATOMIC_H"
       cached: true
       stdout: |
-        Change Dir: '/home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-q2oES6'
+        Change Dir: '/home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-R2n3gZ'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_557d7
-        [1/2] /home/thongp/zephyr-sdk-0.17.0/xtensa-nxp_imx8m_adsp_zephyr-elf/bin/xtensa-nxp_imx8m_adsp_zephyr-elf-gcc   -c -o CMakeFiles/cmTC_557d7.dir/HAVE_STDATOMIC_H.c.obj -c /home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-q2oES6/HAVE_STDATOMIC_H.c
-        [2/2] : && /home/thongp/zephyr-sdk-0.17.0/xtensa-nxp_imx8m_adsp_zephyr-elf/bin/xtensa-nxp_imx8m_adsp_zephyr-elf-gcc -c  CMakeFiles/cmTC_557d7.dir/HAVE_STDATOMIC_H.c.obj -o cmTC_557d7   && :
-        xtensa-nxp_imx8m_adsp_zephyr-elf-gcc: warning: CMakeFiles/cmTC_557d7.dir/HAVE_STDATOMIC_H.c.obj: linker input file unused because linking not done
+        Run Build Command(s): /usr/bin/ninja -v cmTC_dbcae
+        [1/2] /home/thongp/zephyr-sdk-0.17.0/xtensa-nxp_imx8m_adsp_zephyr-elf/bin/xtensa-nxp_imx8m_adsp_zephyr-elf-gcc   -c -o CMakeFiles/cmTC_dbcae.dir/HAVE_STDATOMIC_H.c.obj -c /home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-R2n3gZ/HAVE_STDATOMIC_H.c
+        [2/2] : && /home/thongp/zephyr-sdk-0.17.0/xtensa-nxp_imx8m_adsp_zephyr-elf/bin/xtensa-nxp_imx8m_adsp_zephyr-elf-gcc -c  CMakeFiles/cmTC_dbcae.dir/HAVE_STDATOMIC_H.c.obj -o cmTC_dbcae   && :
+        xtensa-nxp_imx8m_adsp_zephyr-elf-gcc: warning: CMakeFiles/cmTC_dbcae.dir/HAVE_STDATOMIC_H.c.obj: linker input file unused because linking not done
         
       exitCode: 0
   -
@@ -167,8 +167,8 @@ events:
     checks:
       - "Looking for include file fcntl.h"
     directories:
-      source: "/home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-hmAd3j"
-      binary: "/home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-hmAd3j"
+      source: "/home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-F7WfYa"
+      binary: "/home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-F7WfYa"
     cmakeVariables:
       CMAKE_C_FLAGS: " -Wall -Wextra"
       CMAKE_MODULE_PATH: "/home/thongp/zephyrproject/zephyr/cmake/modules;/home/thongp/zephyrproject/modules/lib/open-amp/open-amp/cmake;/home/thongp/zephyrproject/modules/lib/open-amp/open-amp/cmake/modules;/home/thongp/zephyrproject/modules/lib/open-amp/open-amp/cmake/platforms"
@@ -176,12 +176,12 @@ events:
       variable: "HAVE_FCNTL_H"
       cached: true
       stdout: |
-        Change Dir: '/home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-hmAd3j'
+        Change Dir: '/home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-F7WfYa'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_647b5
-        [1/2] /home/thongp/zephyr-sdk-0.17.0/xtensa-nxp_imx8m_adsp_zephyr-elf/bin/xtensa-nxp_imx8m_adsp_zephyr-elf-gcc   -Wall -Wextra -c -o CMakeFiles/cmTC_647b5.dir/HAVE_FCNTL_H.c.obj -c /home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-hmAd3j/HAVE_FCNTL_H.c
-        [2/2] : && /home/thongp/zephyr-sdk-0.17.0/xtensa-nxp_imx8m_adsp_zephyr-elf/bin/xtensa-nxp_imx8m_adsp_zephyr-elf-gcc -Wall -Wextra -c  CMakeFiles/cmTC_647b5.dir/HAVE_FCNTL_H.c.obj -o cmTC_647b5   && :
-        xtensa-nxp_imx8m_adsp_zephyr-elf-gcc: warning: CMakeFiles/cmTC_647b5.dir/HAVE_FCNTL_H.c.obj: linker input file unused because linking not done
+        Run Build Command(s): /usr/bin/ninja -v cmTC_2b35c
+        [1/2] /home/thongp/zephyr-sdk-0.17.0/xtensa-nxp_imx8m_adsp_zephyr-elf/bin/xtensa-nxp_imx8m_adsp_zephyr-elf-gcc   -Wall -Wextra -c -o CMakeFiles/cmTC_2b35c.dir/HAVE_FCNTL_H.c.obj -c /home/thongp/zephyrproject/zephyr/samples/subsys/ipc/zephyr-application/micro_speech_openamp/build/CMakeFiles/CMakeScratch/TryCompile-F7WfYa/HAVE_FCNTL_H.c
+        [2/2] : && /home/thongp/zephyr-sdk-0.17.0/xtensa-nxp_imx8m_adsp_zephyr-elf/bin/xtensa-nxp_imx8m_adsp_zephyr-elf-gcc -Wall -Wextra -c  CMakeFiles/cmTC_2b35c.dir/HAVE_FCNTL_H.c.obj -o cmTC_2b35c   && :
+        xtensa-nxp_imx8m_adsp_zephyr-elf-gcc: warning: CMakeFiles/cmTC_2b35c.dir/HAVE_FCNTL_H.c.obj: linker input file unused because linking not done
         
       exitCode: 0
 ...
