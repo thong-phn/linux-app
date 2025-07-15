@@ -5,7 +5,7 @@
 #include <string.h>
 
 #define TTY_DEVICE "/dev/ttyRPMSG1"
-#define CHUNK_SIZE 496      // Use RPMsg data limit
+#define CHUNK_SIZE 400      // Use RPMsg data limit
 #define DELAY_MS 100        // Delay between chunks
 #define WAV_HEADER_SIZE 44  // Standard WAV header size
 
