@@ -1,2 +1,0 @@
-# Load Sysbuild board Kconfig descriptions.
-osource "/home/thongp/zephyrproject/zephyr/boards/nxp/imx8mp_evk/Kconfig.sysbuild"
