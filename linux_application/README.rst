@@ -1,6 +1,8 @@
-..  _h2-headline: Build steps
-    
-..  _h3-headline: Simulation app
+Build steps
+===========
+
+Simulation
+-----------
 
 .. code-block:: console
 
@@ -9,3 +11,12 @@
     # Run 
     ./send <file_name>.wav
 
+Using ALSA
+-----------
+
+.. code-block:: console
+
+    # Build
+    gcc record_main.c -o send -lrt -lpthread -lasound
+    # Run 
+    ./send
