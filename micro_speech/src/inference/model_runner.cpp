@@ -1,32 +1,30 @@
-#include "main_functions.hpp"
+#include "model_runner.hpp"
 
 #include <zephyr/logging/log.h>
+LOG_MODULE_REGISTER(model_runner, LOG_LEVEL_DBG);
 
 #include "tensorflow/lite/core/c/common.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/micro/micro_log.h"
 #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 
-/* tflite model */
-#include "../tflite/micro_model_settings.h"
-#include "../tflite/audio_preprocessor_int8_model_data.h"
-#include "../tflite/micro_speech_quantized_model_data.h"
+#include "audio_preprocessor_int8_model.hpp"
+#include "micro_speech_quantized_model.hpp"
 
-/* test input */
-#include "no_1000ms_audio_data.h"
-#include "yes_1000ms_audio_data.h"
-#include "silence_1000ms_audio_data.h"
-#include "noise_1000ms_audio_data.h"
+#include "transport/rpmsg_transport.h" // For sending results back
+
+#include <algorithm>
+#include <stdio.h>
+#include <string.h>
+
+/* Features type for audio processing */
+Features g_features;
 
 namespace {
 
 /* Arena size for model operations */
 constexpr size_t kArenaSize = 28584;  /* xtensa p6 */
 alignas(16) uint8_t g_arena[kArenaSize];
-
-/* Features type for audio processing */
-using Features = int8_t[kFeatureCount][kFeatureSize];
-Features g_features;
 
 /* Audio sample constants */
 constexpr int kAudioSampleDurationCount =
@@ -40,12 +38,8 @@ using AudioPreprocessorOpResolver = tflite::MicroMutableOpResolver<18>;
 
 /**
  * @brief Register operations for micro speech model
- *
- * @param op_resolver Operation resolver to register operations with
- * @return TfLiteStatus indicating success or failure
  */
-TfLiteStatus register_micro_speech_ops(MicroSpeechOpResolver& op_resolver)
-{
+TfLiteStatus register_micro_speech_ops(MicroSpeechOpResolver& op_resolver) {
     TF_LITE_ENSURE_STATUS(op_resolver.AddReshape());
     TF_LITE_ENSURE_STATUS(op_resolver.AddFullyConnected());
     TF_LITE_ENSURE_STATUS(op_resolver.AddDepthwiseConv2D());
@@ -55,12 +49,8 @@ TfLiteStatus register_micro_speech_ops(MicroSpeechOpResolver& op_resolver)
 
 /**
  * @brief Register operations for audio preprocessor model
- *
- * @param op_resolver Operation resolver to register operations with
- * @return TfLiteStatus indicating success or failure
  */
-TfLiteStatus register_audio_preprocessor_ops(AudioPreprocessorOpResolver& op_resolver)
-{
+TfLiteStatus register_ops(AudioPreprocessorOpResolver& op_resolver) {
     TF_LITE_ENSURE_STATUS(op_resolver.AddReshape());
     TF_LITE_ENSURE_STATUS(op_resolver.AddCast());
     TF_LITE_ENSURE_STATUS(op_resolver.AddStridedSlice());
@@ -84,18 +74,11 @@ TfLiteStatus register_audio_preprocessor_ops(AudioPreprocessorOpResolver& op_res
 
 /**
  * @brief Generate a single feature from audio data
- *
- * @param audio_data Input audio data
- * @param audio_data_size Size of audio data
- * @param feature_output Output buffer for the generated feature
- * @param interpreter TensorFlow Lite interpreter
- * @return TfLiteStatus indicating success or failure
  */
 TfLiteStatus generate_single_feature(const int16_t* audio_data,
                                     const int audio_data_size,
                                     int8_t* feature_output,
-                                    tflite::MicroInterpreter* interpreter)
-{
+                                    tflite::MicroInterpreter* interpreter) {
     TfLiteTensor* input = interpreter->input(0);
     if (!input) {
         MicroPrintf("Failed to get input tensor");
@@ -131,18 +114,12 @@ TfLiteStatus generate_single_feature(const int16_t* audio_data,
 
 /**
  * @brief Generate features from audio data
- *
- * @param audio_data Input audio data
- * @param audio_data_size Size of audio data
- * @param features_output Output buffer for the generated features
- * @return TfLiteStatus indicating success or failure
  */
 TfLiteStatus generate_features(const int16_t* audio_data,
                             const size_t audio_data_size,
-                            Features* features_output)
-{
+                            Features* features_output) {
     /* Load the audio preprocessing model */
-    const tflite::Model* model = tflite::GetModel(audio_preprocessor_int8_tflite);
+    const tflite::Model* model = tflite::GetModel(g_audio_preprocessor_int8_model);
     if (model->version() != TFLITE_SCHEMA_VERSION) {
         MicroPrintf("Audio preprocessor model version mismatch: %d vs %d",
             model->version(), TFLITE_SCHEMA_VERSION);
@@ -151,7 +128,7 @@ TfLiteStatus generate_features(const int16_t* audio_data,
 
     /* Set up operations */
     AudioPreprocessorOpResolver op_resolver;
-    if (register_audio_preprocessor_ops(op_resolver) != kTfLiteOk) {
+    if (register_ops(op_resolver) != kTfLiteOk) {
         MicroPrintf("Failed to register audio preprocessor ops");
         return kTfLiteError;
     }
@@ -189,15 +166,10 @@ TfLiteStatus generate_features(const int16_t* audio_data,
 
 /**
  * @brief Run speech recognition on generated features
- *
- * @param features Input features
- * @param expected_label Expected recognition result
- * @return TfLiteStatus indicating success or failure
  */
-TfLiteStatus run_micro_speech_inference(const Features& features, const char* expected_label)
-{
+TfLiteStatus run_micro_speech_inference(const Features& features) {
     /* Load the speech recognition model */
-    const tflite::Model* model = tflite::GetModel(micro_speech_quantized_tflite);
+    const tflite::Model* model = tflite::GetModel(g_micro_speech_quantized_model);
     if (model->version() != TFLITE_SCHEMA_VERSION) {
         MicroPrintf("MicroSpeech model version mismatch: %d vs %d",
             model->version(), TFLITE_SCHEMA_VERSION);
@@ -261,8 +233,8 @@ TfLiteStatus run_micro_speech_inference(const Features& features, const char* ex
 
     /* Dequantize and print results */
     float category_predictions[kCategoryCount];
-    MicroPrintf("MicroSpeech category predictions for <%s>", expected_label);
-    
+    MicroPrintf("MicroSpeech category predictions:");
+
     for (int i = 0; i < kCategoryCount; i++) {
         category_predictions[i] = (tflite::GetTensorData<int8_t>(output)[i] - output_zero_point) * output_scale;
         MicroPrintf("  %.4f %s", (double)category_predictions[i], kCategoryLabels[i]);
@@ -274,12 +246,15 @@ TfLiteStatus run_micro_speech_inference(const Features& features, const char* ex
         std::max_element(std::begin(category_predictions), std::end(category_predictions))
     );
 
-    MicroPrintf("Detected: %s (Expected: %s)", kCategoryLabels[prediction_index], expected_label);
-
-    /* Check if prediction matches expected label */
-    if (strcmp(kCategoryLabels[prediction_index], expected_label) != 0) {
-        MicroPrintf("Recognition mismatch!");
+    // Send prediction result through rpmsg
+    static int8_t count = 0;
+    char prediction_buff[256]; count++;
+    snprintf(prediction_buff, sizeof(prediction_buff), "[Z] run_micro_speech_inference: %s; No. of predictions: %d \n", kCategoryLabels[prediction_index], count);
+    if (tty_ept.addr != RPMSG_ADDR_ANY) {
+        rpmsg_send(&tty_ept, prediction_buff, strlen(prediction_buff));
     }
+    
+    MicroPrintf("Detected: %s", kCategoryLabels[prediction_index]);
 
     return kTfLiteOk;
 }
@@ -287,55 +262,25 @@ TfLiteStatus run_micro_speech_inference(const Features& features, const char* ex
 } /* namespace */
 
 /* C API implementation */
-
-extern "C" {
-
-int micro_speech_process_audio(const char *expected_label, const int16_t *audio_data,
-                        size_t audio_data_size) {
+extern "C" int micro_speech_process_audio(const int16_t *audio_data,
+                                        size_t audio_data_size) {
+    // [DEBUG] Print
+    char debug_buff[256];
+    snprintf(debug_buff, sizeof(debug_buff), "[Z] micro_speech_process_audio: audio_data_size: %zu\n", audio_data_size);
+    
+    // Send through rpmsg if TTY endpoint is available
+    if (tty_ept.addr != RPMSG_ADDR_ANY) {
+        rpmsg_send(&tty_ept, debug_buff, strlen(debug_buff));
+    }
     /* Generate features */
     if (generate_features(audio_data, audio_data_size, &g_features) != kTfLiteOk) {
         MicroPrintf("Failed to generate features");
         return -1;
     }
-
     /* Run inference */
-    if (run_micro_speech_inference(g_features, expected_label) != kTfLiteOk) {
+    if (run_micro_speech_inference(g_features) != kTfLiteOk) {
         MicroPrintf("Inference failed");
         return -2;
     }
-    
     return 0;
 }
-
-void setup() {
-    printf("MicroSpeech porting to qemu_xtensa\n");
-}
-
-void loop() {
-    int ret;
-    /* Process test audio samples */
-    MicroPrintf("Processing 'yes' audio sample...");
-    ret = micro_speech_process_audio("yes", g_yes_1000ms_audio_data, g_yes_1000ms_audio_data_size);
-    if (ret != 0) {
-        MicroPrintf("Failed to process 'yes' sample: %d", ret);
-    }
-
-    MicroPrintf("Processing 'no' audio sample...");
-    ret = micro_speech_process_audio("no", g_no_1000ms_audio_data, g_no_1000ms_audio_data_size);
-    if (ret != 0) {
-        MicroPrintf("Failed to process 'no' sample: %d", ret);
-    }
-
-    MicroPrintf("Processing 'silence' audio sample...");
-    ret = micro_speech_process_audio("silence", g_silence_1000ms_audio_data, g_silence_1000ms_audio_data_size);
-    if (ret != 0) {
-        MicroPrintf("Failed to process 'silence' sample: %d", ret);
-    }
-
-    MicroPrintf("Processing 'noise' audio sample...");
-    ret = micro_speech_process_audio("silence", g_noise_1000ms_audio_data, g_noise_1000ms_audio_data_size);
-    if (ret != 0) {
-        MicroPrintf("Failed to process 'noise' sample: %d", ret);
-    }
-}
-} /* extern "C" */

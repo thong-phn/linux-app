@@ -16,9 +16,12 @@ file(
     GLOB 
     app_sources 
     src/*
+    src/inference/*
+    src/transport/*
 )
 
 target_include_directories(app PRIVATE
+    src
     ${ZEPHYR_TFLITE_MICRO_MODULE_DIR}/signal
     ${ZEPHYR_TFLITE_MICRO_MODULE_DIR}/signal/micro/kernels/
     ${ZEPHYR_TFLITE_MICRO_MODULE_DIR}/signal/src

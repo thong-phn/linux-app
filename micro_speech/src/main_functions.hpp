@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef TENSORFLOW_LITE_MICRO_EXAMPLES_HELLO_WORLD_MAIN_FUNCTIONS_H_
-#define TENSORFLOW_LITE_MICRO_EXAMPLES_HELLO_WORLD_MAIN_FUNCTIONS_H_
+#ifndef MICRO_SPEECH_OPENAMP_MAIN_FUNCTIONS_H_
+#define MICRO_SPEECH_OPENAMP_MAIN_FUNCTIONS_H_
 
 /* Expose a C friendly interface for main functions. */
 #ifdef __cplusplus
@@ -37,4 +37,4 @@ void loop(void);
 }
 #endif
 
-#endif /* TENSORFLOW_LITE_MICRO_EXAMPLES_HELLO_WORLD_MAIN_FUNCTIONS_H_ */
+#endif /* MICRO_SPEECH_OPENAMP_MAIN_FUNCTIONS_H_ */
