@@ -16,8 +16,8 @@
 #define WAV_HEADER_SIZE     44              // Standard WAV header size, 44 bytes
 #define TTY_DEVICE          "/dev/ttyRPMSG1"
 #define QUEUE_NAME          "/audio_queue"
-#define QUEUE_SIZE          10
-#define PCM_DEVICE          "default"
+#define QUEUE_SIZE          10              // 200ms of audio
+#define PCM_DEVICE          "hw:0,0"
 
 typedef struct {
     char data[AUDIO_FRAME_SIZE];        // Buffer capacity. Note: Char is more flexible than uint16_t
@@ -67,6 +67,11 @@ void* producer_thread(void *arg) {
                 snd_pcm_prepare(data->pcm_handle);
                 continue;
             }
+            // When snd_pcm_abort is called, readi returns -ESTRPIPE
+            if (frames_read == -ESTRPIPE) {
+                printf("[L] Producer: PCM stream aborted, stopping.\n");
+                break;
+            }
             fprintf(stderr, "[L] Producer:  Error from snd_pcm_readi: %s\n", snd_strerror(frames_read));
             break;
         }
@@ -110,16 +115,24 @@ void* consumer_thread(void *arg) {
     ssize_t msg_size, bytes_sent;
     long long current_time, next_send_time, sleep_duration;
     int eof_received = 0;
+    struct timespec timeout;
     
     printf("[L] Consumer:  Consumer thread started\n");
 
     next_send_time = get_current_time_ms();
 
     // Sending loop
-    while(!data->should_stop) {
-        // mq_receive: Wait for frame from queue
-        msg_size = mq_receive(data->queue, (char *)&frame, sizeof(frame), NULL);
+    while(!data->should_stop || !eof_received) {
+        // Use mq_timedreceive to avoid blocking forever
+        clock_gettime(CLOCK_REALTIME, &timeout);
+        timeout.tv_sec += 1; // Set a 1-second timeout
+
+        msg_size = mq_timedreceive(data->queue, (char *)&frame, sizeof(frame), NULL, &timeout);
         if (msg_size == -1) {
+            if (errno == ETIMEDOUT) {
+                // Timeout occurred, just loop again to check should_stop
+                continue;
+            }
             perror("[L] Consumer:  mq_receive failed");
             break;
         }
@@ -128,7 +141,7 @@ void* consumer_thread(void *arg) {
         if (frame.frame_number == -1) {
             printf("[L] Consumer:  EOF frame received, stopping\n");
             eof_received = 1;
-            break; // Stop the loop
+            break; // Exit after processing EOF
         }
 
         // Pacing
@@ -255,6 +268,11 @@ int main(int argc, char* argv[]) {
         sleep(1);
     }
     shared_data.should_stop = 1;
+
+    // Abort the PCM stream to unblock the producer thread
+    if (shared_data.pcm_handle) {
+        snd_pcm_abort(shared_data.pcm_handle);
+    }
 
     pthread_join(producer_tid, NULL);
     pthread_join(consumer_tid, NULL);

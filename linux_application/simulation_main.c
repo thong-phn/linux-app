@@ -8,8 +8,8 @@
 #include <sys/stat.h>
 #include <string.h>
 
-#define AUDIO_FRAME_SIZE    640            // 1 frame, 20ms = 640 bytes = 320 samples
-#define FRAME_DURATION_MS   20              // 20 ms
+#define AUDIO_FRAME_SIZE    640            // 1 frame, 10ms = 320 bytes 
+#define FRAME_DURATION_MS   20              // 10 ms
 #define WAV_HEADER_SIZE     44              // Standard WAV header size, 44 bytes 
 #define TTY_DEVICE          "/dev/ttyRPMSG1"
 #define QUEUE_NAME          "/audio_queue"
