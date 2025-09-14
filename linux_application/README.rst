@@ -13,6 +13,7 @@ Simulation
 
 Using ALSA
 -----------
+alsa-lib: 1.12.14
 
 .. code-block:: console
 
