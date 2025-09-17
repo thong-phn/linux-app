@@ -29,3 +29,4 @@ alsa-lib: `1.2.14 <http://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.14.tar
     ./record --h
     # Run application (for ex, using Card #1, Subdevice #0)
     ./record hw:1,0
+
