@@ -13,7 +13,7 @@ Simulation
 
 Using ALSA
 -----------
-alsa-lib: [1.12.14]()
+alsa-lib: `1.2.14 <http://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.14.tar.bz2>`_
 
 .. code-block:: console
     # Build alsa-lib
