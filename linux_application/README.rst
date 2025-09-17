@@ -16,6 +16,7 @@ Using ALSA
 alsa-lib: 1.2.14
 
 .. code-block:: console
+
     # Build alsa-lib
     tar -xvjf alsa-lib-1.2.14.tar.bz2
     cd alsa-lib-1.2.14
