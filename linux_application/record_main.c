@@ -17,7 +17,7 @@
 #define TTY_DEVICE          "/dev/ttyRPMSG1"
 #define QUEUE_NAME          "/audio_queue"
 #define QUEUE_SIZE          10              // 200ms of audio
-#define PCM_DEVICE          "hw:0,0"
+#define DEFAULT_PCM_DEVICE  "hw:0,0"       // Default PCM device
 
 typedef struct {
     char data[AUDIO_FRAME_SIZE];        // Buffer capacity. Note: Char is more flexible than uint16_t
@@ -172,16 +172,16 @@ void* consumer_thread(void *arg) {
     return NULL;
 }
 
-int setup_pcm(shared_queue_t *data) {
+int setup_pcm(shared_queue_t *data, const char *pcm_device) {
     snd_pcm_hw_params_t *params;
     unsigned int sample_rate = 16000;
     int dir;
     int err;
 
     // Open PCM device for recording
-    err = snd_pcm_open(&data->pcm_handle, PCM_DEVICE, SND_PCM_STREAM_CAPTURE, 0);
+    err = snd_pcm_open(&data->pcm_handle, pcm_device, SND_PCM_STREAM_CAPTURE, 0);
     if (err < 0) {
-        fprintf(stderr, "Error: Unable to open PCM device %s: %s\n", PCM_DEVICE, snd_strerror(err));
+        fprintf(stderr, "Error: Unable to open PCM device %s: %s\n", pcm_device, snd_strerror(err));
         return err;
     }
 
@@ -208,16 +208,41 @@ int setup_pcm(shared_queue_t *data) {
         return err;
     }
 
-    printf("[L] PCM device configured for 16kHz, S16_LE, Mono\n");
+    printf("[L] PCM device %s configured for 16kHz, S16_LE, Mono\n", pcm_device);
     return 0;
 }
 
+void print_usage(const char *program_name) {
+    printf("Usage: %s [PCM_DEVICE]\n", program_name);
+    printf("  PCM_DEVICE: ALSA PCM device name (default: %s)\n", DEFAULT_PCM_DEVICE);
+    printf("Examples:\n");
+    printf("  %s              # Use default device (hw:0,0)\n", program_name);
+    printf("  %s hw:1,0       # Use card 1, device 0\n", program_name);
+    printf("  %s default      # Use default ALSA device\n", program_name);
+}
 
 int main(int argc, char* argv[]) {
     shared_queue_t shared_data;             // Shared queue between 2 threads
     struct mq_attr queue_attr;              // Message queue attributes
     pthread_t producer_tid, consumer_tid;   // Thread IDs
+    const char *pcm_device = DEFAULT_PCM_DEVICE;
     int err;
+
+    // Parse command line arguments
+    if (argc > 2) {
+        print_usage(argv[0]);
+        return 1;
+    }
+    
+    if (argc == 2) {
+        if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) {
+            print_usage(argv[0]);
+            return 0;
+        }
+        pcm_device = argv[1];
+    }
+
+    printf("[L] Using PCM device: %s\n", pcm_device);
 
     // Ensure shared_data is zero-initialized
     memset(&shared_data, 0, sizeof(shared_data));
@@ -233,7 +258,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Setup ALSA PCM device
-    if (setup_pcm(&shared_data) != 0) {
+    if (setup_pcm(&shared_data, pcm_device) != 0) {
         goto cleanup;
     }
 
