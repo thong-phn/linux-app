@@ -11,7 +11,7 @@
 #define AUDIO_FRAME_SIZE    640            // 1 frame, 10ms = 320 bytes 
 #define FRAME_DURATION_MS   20              // 10 ms
 #define WAV_HEADER_SIZE     44              // Standard WAV header size, 44 bytes 
-#define DEFAULT_TTY_DEVICE  "/dev/ttyRPMSG1"  // Default TTY device
+#define DEFAULT_TTY_DEVICE  "/dev/ttyRPMSG0"  // Default TTY device
 #define QUEUE_NAME          "/audio_queue"
 #define QUEUE_SIZE          10
 

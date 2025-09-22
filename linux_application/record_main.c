@@ -14,7 +14,7 @@
 #define AUDIO_FRAME_SIZE    (AUDIO_FRAME_SAMPLES * 2) // 640 bytes (16-bit samples)
 #define FRAME_DURATION_MS   20              // 20 ms
 #define WAV_HEADER_SIZE     44              // Standard WAV header size, 44 bytes
-#define TTY_DEVICE          "/dev/ttyRPMSG1"
+#define DEFAULT_TTY_DEVICE  "/dev/ttyRPMSG0"
 #define QUEUE_NAME          "/audio_queue"
 #define QUEUE_SIZE          10              // 200ms of audio
 #define DEFAULT_PCM_DEVICE  "hw:0,0"       // Default PCM device
@@ -213,12 +213,14 @@ int setup_pcm(shared_queue_t *data, const char *pcm_device) {
 }
 
 void print_usage(const char *program_name) {
-    printf("Usage: %s [PCM_DEVICE]\n", program_name);
+    printf("Usage: %s [PCM_DEVICE] [TTY_DEVICE]\n", program_name);
     printf("  PCM_DEVICE: ALSA PCM device name (default: %s)\n", DEFAULT_PCM_DEVICE);
+    printf("  TTY_DEVICE: TTY device path (default: %s)\n", DEFAULT_TTY_DEVICE);
     printf("Examples:\n");
-    printf("  %s              # Use default device (hw:0,0)\n", program_name);
-    printf("  %s hw:1,0       # Use card 1, device 0\n", program_name);
-    printf("  %s default      # Use default ALSA device\n", program_name);
+    printf("  %s                     # Use default devices\n", program_name);
+    printf("  %s hw:1,0              # Use PCM card 1, device 0\n", program_name);
+    printf("  %s hw:1,0 /dev/ttyUSB0 # Use custom PCM and TTY devices\n", program_name);
+    printf("  %s default /dev/ttyACM0 # Use default PCM, custom TTY\n", program_name);
 }
 
 int main(int argc, char* argv[]) {
@@ -226,23 +228,29 @@ int main(int argc, char* argv[]) {
     struct mq_attr queue_attr;              // Message queue attributes
     pthread_t producer_tid, consumer_tid;   // Thread IDs
     const char *pcm_device = DEFAULT_PCM_DEVICE;
+    const char *tty_device = DEFAULT_TTY_DEVICE;
     int err;
 
     // Parse command line arguments
-    if (argc > 2) {
+    if (argc > 3) {
         print_usage(argv[0]);
         return 1;
     }
     
-    if (argc == 2) {
+    if (argc >= 2) {
         if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) {
             print_usage(argv[0]);
             return 0;
         }
         pcm_device = argv[1];
     }
+    
+    if (argc == 3) {
+        tty_device = argv[2];
+    }
 
     printf("[L] Using PCM device: %s\n", pcm_device);
+    printf("[L] Using TTY device: %s\n", tty_device);
 
     // Ensure shared_data is zero-initialized
     memset(&shared_data, 0, sizeof(shared_data));
@@ -251,9 +259,9 @@ int main(int argc, char* argv[]) {
     signal(SIGINT, sigint_handler);
 
     // Open TTY device
-    shared_data.tty_fd = open(TTY_DEVICE, O_WRONLY);
+    shared_data.tty_fd = open(tty_device, O_WRONLY);
     if (shared_data.tty_fd < 0) {
-        printf("Error: Failed to open TTY %s\n", TTY_DEVICE);
+        printf("Error: Failed to open TTY %s\n", tty_device);
         return 1;
     }
 
