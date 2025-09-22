@@ -11,7 +11,7 @@
 #define AUDIO_FRAME_SIZE    640            // 1 frame, 10ms = 320 bytes 
 #define FRAME_DURATION_MS   20              // 10 ms
 #define WAV_HEADER_SIZE     44              // Standard WAV header size, 44 bytes 
-#define TTY_DEVICE          "/dev/ttyRPMSG1"
+#define DEFAULT_TTY_DEVICE  "/dev/ttyRPMSG1"  // Default TTY device
 #define QUEUE_NAME          "/audio_queue"
 #define QUEUE_SIZE          10
 
@@ -137,12 +137,22 @@ int main(int argc, char* argv[]) {
     struct mq_attr queue_attr;              // Message queue attributes
     pthread_t producer_tid, consumer_tid;   // Thread IDs
     const char* wave_filename;
+    const char* tty_device;
     
-    if (argc > 1) {
-        wave_filename = argv[1];
-    } else {
-        printf("Usage: %s <wave_file>\n", argv[0]);
+    if (argc < 2) {
+        printf("Usage: %s <wave_file> [tty_device]\n", argv[0]);
+        printf("  wave_file: Path to the WAV file\n");
+        printf("  tty_device: TTY device path (default: %s)\n", DEFAULT_TTY_DEVICE);
         return 1;
+    }
+
+    wave_filename = argv[1];
+    
+    // Use provided TTY device or default
+    if (argc >= 3) {
+        tty_device = argv[2];
+    } else {
+        tty_device = DEFAULT_TTY_DEVICE;
     }
 
     // Ensure shared_data is zero-initialized 
@@ -156,11 +166,13 @@ int main(int argc, char* argv[]) {
     }
 
     // Open TTY device
-    shared_data.tty_fd = open(TTY_DEVICE, O_WRONLY);
+    shared_data.tty_fd = open(tty_device, O_WRONLY);
     if (shared_data.tty_fd < 0) {
-        printf("Error: Failed to open TTY %s\n", TTY_DEVICE);
+        printf("Error: Failed to open TTY %s\n", tty_device);
         return 1;
     }
+
+    printf("Using TTY device: %s\n", tty_device);
 
     // [DEBUG] Get file info
     if (fstat(shared_data.file_fd, &file_stat) == 0) {
