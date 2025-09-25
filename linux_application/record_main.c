@@ -217,10 +217,10 @@ void print_usage(const char *program_name) {
     printf("  PCM_DEVICE: ALSA PCM device name (default: %s)\n", DEFAULT_PCM_DEVICE);
     printf("  TTY_DEVICE: TTY device path (default: %s)\n", DEFAULT_TTY_DEVICE);
     printf("Examples:\n");
-    printf("  %s                     # Use default devices\n", program_name);
-    printf("  %s hw:1,0              # Use PCM card 1, device 0\n", program_name);
-    printf("  %s hw:1,0 /dev/ttyUSB0 # Use custom PCM and TTY devices\n", program_name);
-    printf("  %s default /dev/ttyACM0 # Use default PCM, custom TTY\n", program_name);
+    printf("  %s                        # Use default devices\n", program_name);
+    printf("  %s hw:1,0                 # Use PCM card 1, device 0\n", program_name);
+    printf("  %s hw:1,0 /dev/ttyRPMSG0  # Use custom PCM and TTY devices\n", program_name);
+    printf("  %s default /dev/ttyRPMSG1 # Use default PCM, custom TTY\n", program_name);
 }
 
 int main(int argc, char* argv[]) {
