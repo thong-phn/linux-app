@@ -1,7 +1,7 @@
-Build steps
+Building and Running
 ===========
 
-Simulation
+Simulation with wave files
 -----------
 
 .. code-block:: console
@@ -10,8 +10,11 @@ Simulation
     gcc simulation_main.c -o send -lrt -lpthread
     # Run 
     ./send <file_name>.wav
+    
+    # User guide
+    ./send --h
 
-Using ALSA
+Recording with ALSA
 -----------
 alsa-lib: 1.2.14
 
@@ -21,12 +24,16 @@ alsa-lib: 1.2.14
     tar -xvjf alsa-lib-1.2.14.tar.bz2
     cd alsa-lib-1.2.14
     ./configure --host=arm-linux && make install -j$(nproc)
+    
     # Build linux app
     gcc record_main.c -o record -lrt -lpthread -lasound
-    # Get the soundcard information
-    arecord -l
+    
+    # Run application (for ex, using Card #1, Subdevice #0)
+    ./record hw:1,0 
+    
     # User guide
     ./record --h
-    # Run application (for ex, using Card #1, Subdevice #0)
-    ./record hw:1,0
+    
+
+
 
