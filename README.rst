@@ -9,7 +9,7 @@ This repository provides C program for audio simulation and real-time recording 
 Building and Running
 ===========
 
-Simulation with wave files
+Simulation with wav files
 -----------
 
 .. code-block:: console
